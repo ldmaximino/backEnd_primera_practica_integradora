@@ -15,16 +15,8 @@ const initializeProductDao = async () => {
   }
 };
 
-// Llama a la función para inicializar `productDao`
+// Call the function to initialize 'productDao'
 await initializeProductDao();
-
-
-// import { __dirname } from '../utils.js';
-// import ProductDaoFS from '../daos/filesystem/product_dao.js';
-// const productDao = new ProductDaoFS(`${__dirname}/data/products.json`);
-
-// import ProductDaoMongoDB from "../daos/mongodb/product_dao.js";
-// const productDao = new ProductDaoMongoDB();
 
 export const getAllProducts = async () => {
     try {

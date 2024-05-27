@@ -12,19 +12,12 @@ const initializeCartDao = async () => {
     const { default: CartDaoMongoDB } = await import('../daos/mongodb/cart_dao.js');
     cartDao = new CartDaoMongoDB();
   } else {
-    throw new Error('PERSISTENCE no definido o no soportado.');
+    throw new Error('PERSISTENCE not defined or supported');
   }
 };
 
 // Call the function to initialize 'productDao'
 await initializeCartDao();
-
-// import { __dirname } from '../utils.js';
-// import CartDaoFS from '../daos/filesystem/cart_dao.js';
-// const cartDao = new CartDaoFS(`${__dirname}/data/carts.json`);
-
-// import CartDaoMongoDB from '../daos/mongodb/cart_dao.js';
-// const cartDao = new CartDaoMongoDB();
 
 export const getAllCarts = async () => {
     try {

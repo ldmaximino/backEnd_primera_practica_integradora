@@ -1,6 +1,9 @@
 import { ProductModel } from "./models/product_model.js";
 
 export default class ProductDaoMongoDB {
+    constructor() {
+    }
+
     async getAllProducts() {
         try {
             const products = await ProductModel.find();
@@ -40,7 +43,7 @@ export default class ProductDaoMongoDB {
     async updateProduct(id, object) {
         try {
             const product = await ProductModel.findByIdAndUpdate(id, object, {new: true});
-            return product;
+            return {status: 'Product updated',product};
         } catch (error) {
             throw new Error(error);
         }
@@ -50,7 +53,7 @@ export default class ProductDaoMongoDB {
         try {
             const product = await ProductModel.findByIdAndDelete(id);
             if(!product) return {message: 'Product not found'}
-            return product;
+            return {status: 'Product deleted',product};
         } catch (error) {
             throw new Error(error);
         }

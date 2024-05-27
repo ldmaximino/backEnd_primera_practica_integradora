@@ -1,6 +1,9 @@
 import { CartModel } from "./models/cart_model.js";
 
 export default class CartDaoMongoDB {
+  constructor() {
+  }
+
   async getAllCarts() {
     try {
       const carts = await CartModel.find({});
@@ -22,6 +25,7 @@ export default class CartDaoMongoDB {
   async createCart(object) {
     try {
       const cart = await CartModel.create(object);
+      return {status: 'Cart added', cart};
     } catch (error) {
       throw new Error(error);
     }
@@ -56,9 +60,9 @@ export default class CartDaoMongoDB {
             { $push: { products: { product: pid, quantity: 1 } } },
             { new: true }
         );
-        return updatedCart;
+        return {status: 'Cart updated', updatedCart};
         } else {
-            return cart;
+            return {status: 'Product added to cart', cart};
         }
     } catch (error) {
       throw new Error(error);
