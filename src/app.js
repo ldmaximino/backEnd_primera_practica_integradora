@@ -49,4 +49,4 @@ const httpServer = app.listen(PORT, () => {
 });
 
 // Initialize socket server
-if (process.env.PERSISTENCE === "mongodb") initSocketServer(httpServer);
+initSocketServer(httpServer);
