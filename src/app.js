@@ -2,7 +2,6 @@
 import express from "express";
 import "dotenv/config";
 import handlebars from "express-handlebars";
-import { Server } from "socket.io";
 
 //Local imports
 import products_router from "./routes/product_router.js";
@@ -10,10 +9,8 @@ import carts_router from "./routes/cart_router.js";
 import views_router from "./routes/views_router.js";
 import { errorHandler } from "./middlewares/error_handler.js";
 import { __dirname } from "./utils.js";
-import * as message_controller from "./controllers/message_controller.js";
 import { initMongoDB } from "./daos/mongodb/connection.js";
-import MessageManager from "./daos/filesystem/messages_dao.js";
-const messageManager = new MessageManager(`${__dirname}/data/messages.json`);
+import { initSocketServer } from "./socket_server.js";
 
 //PORT definition
 const PORT = process.env.PORT || 5003;
@@ -51,25 +48,5 @@ const httpServer = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT} 🚀🚀🚀🚀`);
 });
 
-//Instance socketServer
-const socketServer = new Server(httpServer);
-
-
-socketServer.on("connection", async (socket) => {
-  console.log("👌 New connection!", socket.id);
-  //socketServer.emit("messages", await messageManager.getAll()); //Send to all clients
-  socketServer.emit("messages", await message_controller.getAllMessages()); //Send to all clients
-  socket.on("disconnect", () => {
-    console.log("🫸 User disconnected!");
-  });
-
-  socket.on('newUser', (user) => {
-    console.log(`> ${user} has logged in`);
-  })
-
-  socket.on('chat:message', async(msg) => {
-    await messageManager.createMsg(msg);
-    socketServer.emit("messages", await messageManager.getAll()); //Send to all clients
-  })
-});
-
+// Initialize socket server
+if (process.env.PERSISTENCE === "mongodb") initSocketServer(httpServer);

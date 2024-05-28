@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import ProductManager from "./product_dao.js";
-import { __dirname } from '../../utils.js';
+import { __dirname } from "../../utils.js";
 
 const productsManager = new ProductManager(`${__dirname}/data/products.json`);
 
@@ -44,13 +44,12 @@ export default class CartsManager {
     }
   }
 
-  async saveProductToCart(obj) {
+  async saveProductToCart(cid,pid) {
     try {
-      const { cid, pid } = obj;
       const productExist = await productsManager.getProductById(pid); //check if the product exists
-      if(!productExist) throw new Error('Product not found');
+      if (!productExist) throw new Error("Product not found");
       const cart = await this.getCartById(cid); //check if the cart exists
-      if (!cart) throw new Error('Cart not found');
+      if (!cart) throw new Error("Cart not found");
       const existProductIndex = cart.products.findIndex(
         (prod) => prod.product === pid
       );

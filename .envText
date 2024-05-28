@@ -1,4 +1,4 @@
 PORT=5002
-URI_MONGODB="uri connection mongodb"
+URI_MONGODB=""
 #PERSISTENCE="fs"
 PERSISTENCE="mongodb"

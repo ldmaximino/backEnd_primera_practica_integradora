@@ -5,7 +5,7 @@ import { Router } from "express";
 import { productValidator } from "../middlewares/product_validators.js";
 import * as controller from "../controllers/product_controller.js";
 
-const router = Router();  
+const router = Router();
 
 router.get("/", controller.getAllProducts);
 

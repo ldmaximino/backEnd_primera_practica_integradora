@@ -20,6 +20,7 @@ export default class ProductDaoFS {
   async getProductById(pid) {
     try {
       const products = await this.getAllProducts();
+      
       const productExist = products.find((prod) => prod.id === pid);
       if (!productExist) return null;
       return productExist;
@@ -28,30 +29,38 @@ export default class ProductDaoFS {
     }
   }
 
+    
+  async getProductByCode(code) {
+    const products = await this.getAllProducts();
+    const productExist = products.find((prod) => prod.code === code);
+    return productExist;
+  }
+
   async createProduct(obj) {
     try {
       const product = { id: uuidv4(), ...obj, status: true }; // 'status' is defined by default as true because the command/statement said 'Status is true by default'
       const products = await this.getAllProducts();
-      const productExist = products.find((prod) => prod.code === product.code);
-      if (productExist) return {msg: "Product already exists"};
+      //const productExist = products.find((prod) => prod.code === product.code);
+      const productExist = await this.getProductByCode(product.code);
+      if (productExist) return { msg: "Product already exists" };
       products.push(product);
       await fs.promises.writeFile(this.path, JSON.stringify(products));
-      return {status: 'Product added', product: product};
+      return { status: "Product added", product: product };
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async updateProduct(obj, pid) {
+  async updateProduct(pid, obj) {
     try {
       const products = await this.getAllProducts();
       let productExist = await this.getProductById(pid);
-      if (!productExist) return {msg:`ID Product ${pid} does not exist`};
+      if (!productExist) return { msg: `ID Product ${pid} does not exist` };
       const newProducts = products.filter((prod) => prod.id !== pid);
       productExist = { ...productExist, ...obj };
       newProducts.push(productExist);
       await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
-      return {status: 'Product updated', product: productExist};
+      return { status: "Product updated", product: productExist };
     } catch (error) {
       throw new Error(error);
     }
@@ -62,11 +71,11 @@ export default class ProductDaoFS {
       const products = await this.getAllProducts();
       if (products.length > 0) {
         let productExist = await this.getProductById(pid);
-        if (!productExist) return {msg:`ID Product ${pid} does not exist`};
+        if (!productExist) return { msg: `ID Product ${pid} does not exist` };
         const newProducts = products.filter((prod) => prod.id !== pid);
         await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
-        return {status: 'Product deleted', product: productExist};
-      } else return {msg:`Product not found`};
+        return { status: "Product deleted", product: productExist };
+      } else return { msg: `Product not found` };
     } catch (error) {
       throw new Error(error);
     }

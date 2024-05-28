@@ -6,12 +6,12 @@ import * as controller from "../controllers/cart_controller.js";
 
 const router = Router();
 
-router.get('/', controller.getAllCarts);
+router.get("/", controller.getAllCarts);
 
-router.get('/:cid', controller.getCartById);
+router.get("/:cid", controller.getCartById);
 
-router.post('/', controller.createCart);
+router.post("/", controller.createCart);
 
-router.post('/:cid/product/:pid', controller.saveProductToCart);
+router.post("/:cid/product/:pid", controller.saveProductToCart);
 
 export default router;

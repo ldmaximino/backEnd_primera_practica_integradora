@@ -1,8 +1,9 @@
-import * as service from "../services/message_services.js";
+import MessageDaoMongoDB from "../daos/mongodb/message_dao.js";
+const messageDao = new MessageDaoMongoDB();
 
 export const getAllMessages = async () => {
   try {
-    const messages = await service.getAllMessages();
+    const messages = await messageDao.getAllMessages();
     return messages;
   } catch (error) {
     throw new Error(error);
@@ -11,7 +12,7 @@ export const getAllMessages = async () => {
 
 export const createMessage = async (object) => {
   try {
-    const message = await service.createMessage(object);
+    const message = await messageDao.createMessage(object);
     return message;
   } catch (error) {
     throw new Error(error);
