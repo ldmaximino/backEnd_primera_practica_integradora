@@ -28,15 +28,17 @@
 }
 #output p{
     color: #aaa;
-    padding: 14px 0;
+    padding: 8px 0;
     margin: 0 20px;
-    font-size:0.9rem;
+    font-size:0.8rem;
 }
 #actions p{
-    padding: 14px;
-    margin: 0 20px;
+    padding: 10px;
+    margin: 0 10px;
     border-bottom: 1px solid #e9e9e9;
-    color: #555;
+    text-align: center;
+    font-size:0.7rem;
+    color: rgb(23, 113, 19);
 }
 input{
     padding: 10px 20px;

@@ -27,7 +27,7 @@ btnSend.addEventListener("click", () => {
 });
 
 socket.on("messages", (data) => {
-  actions.message = "";
+  actions.innerHTML = ''
   const chatRender = data
     .map((msg) => {
       return `<p><strong>${msg.username}</strong>: ${msg.message}</p>`;
@@ -55,5 +55,5 @@ message.addEventListener("keypress", () => {
 });
 
 socket.on("chat:typing", (data) => {
-  actions.innerHTML = `<p>${data} is writing a message...</p>`;
+  actions.innerHTML = `<p>${data} is typing...</p>`;
 });
